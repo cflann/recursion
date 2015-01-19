@@ -4,7 +4,11 @@
 // but you don't so you're going to write it from scratch:
 
 var stringifyJSON = function(obj) {
-  // your code goes here
+  
+  /* Base cases 
+   * primitives: number, boolean, string
+   * null: returns "null"
+   */
   if (typeof obj === "number" ||
       typeof obj === "boolean") {
     return obj.toString();
@@ -13,17 +17,22 @@ var stringifyJSON = function(obj) {
   } else if (obj === null) {
     return 'null';
   }
+  /* End base cases */
+
+  /* recur on array elements */
   else if (Array.isArray(obj)) {
     return '[' + obj.map( function(el) {
       return stringifyJSON(el);
     }) + ']';
   }
+
+  /* recur on object properties */
   else {
     var string = "{";
     Object.keys(obj).forEach( function(key, index, keys) {
-      if (!(typeof obj[key] === "function" ||
-            typeof obj[key] === "symbol" ||
-            typeof obj[key] === "undefined")) {        
+      if (!(typeof obj[key] === "function" ||   // omit functions,
+            typeof obj[key] === "symbol" ||     // symbols,
+            typeof obj[key] === "undefined")) { // and undefined values
         string += '"' + key + '":' + stringifyJSON(obj[key]);
         if (index < keys.length-1) {
           string += ',';
