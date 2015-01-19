@@ -26,13 +26,11 @@ var stringifyJSON = function(obj) {
   else {
     var string = "{";
     Object.keys(obj).forEach( function(key, index, keys) {
-      console.log('type of key: ', typeof key);
       if (typeof obj[key] === "function" ||
           typeof obj[key] === "symbol" ||
           typeof obj[key] === "undefined") {
         // do nothing
       } else {
-        console.log(key, obj[key]);
         string += '"' + key + '":' + stringifyJSON(obj[key]);
         if (index < keys.length-1) {
           string += ',';
