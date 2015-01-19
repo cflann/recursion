@@ -13,11 +13,6 @@ var stringifyJSON = function(obj) {
   } else if (obj === null) {
     return 'null';
   }
-  else if (typeof obj === "function" ||
-           typeof obj === "symbol" ||
-           typeof obj === "undefined") {
-    return '';
-  }
   else if (Array.isArray(obj)) {
     return '[' + obj.map( function(el) {
       return stringifyJSON(el);
@@ -26,11 +21,9 @@ var stringifyJSON = function(obj) {
   else {
     var string = "{";
     Object.keys(obj).forEach( function(key, index, keys) {
-      if (typeof obj[key] === "function" ||
-          typeof obj[key] === "symbol" ||
-          typeof obj[key] === "undefined") {
-        // do nothing
-      } else {
+      if (!(typeof obj[key] === "function" ||
+            typeof obj[key] === "symbol" ||
+            typeof obj[key] === "undefined")) {        
         string += '"' + key + '":' + stringifyJSON(obj[key]);
         if (index < keys.length-1) {
           string += ',';
